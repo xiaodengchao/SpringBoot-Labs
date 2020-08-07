@@ -1,0 +1,961 @@
+Index: lab-04-rabbitmq/lab-04-rabbitmq-demo/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-04-rabbitmq/lab-04-rabbitmq-demo/src/main/resources/application.yaml	(revision Local Version)
++++ lab-04-rabbitmq/lab-04-rabbitmq-demo/src/main/resources/application.yaml	(revision Shelved Version)
+@@ -1,7 +1,8 @@
+ spring:
+   # RabbitMQ 配置项，对应 RabbitProperties 配置类
+   rabbitmq:
+-    host: 127.0.0.1 # RabbitMQ 服务的地址
++    host: 192.168.3.27 # RabbitMQ 服务的地址
+     port: 5672 # RabbitMQ 服务的端口
+-    username: guest # RabbitMQ 服务的账号
+-    password: guest # RabbitMQ 服务的密码
++    username: admin # RabbitMQ 服务的账号
++    password: admin # RabbitMQ 服务的密码
++    virtual-host: my_vhost
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/resources/application.yaml	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/resources/application.yaml	(revision Shelved Version)
+@@ -1,6 +1,4 @@
+ spring:
+-  data:
+-    # Elasticsearch 配置项
+-    elasticsearch:
+-      cluster-name: elasticsearch # 集群名
+-      cluster-nodes: 127.0.0.1:9300 # 集群节点
++  elasticsearch:
++    rest:
++      uris: http://192.168.3.27:9200
+Index: lab-15-spring-data-es/lab-15-spring-data-jest/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-jest/src/main/resources/application.yaml	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-jest/src/main/resources/application.yaml	(revision Shelved Version)
+@@ -2,4 +2,4 @@
+   data:
+     # Jest 配置项
+     jest:
+-      uri: http://127.0.0.1:9200
++      uri: http://192.168.3.27:9200
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/dataobject/ESProductDO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/dataobject/ESProductDO.java	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/dataobject/ESProductDO.java	(revision Shelved Version)
+@@ -7,7 +7,7 @@
+ import org.springframework.data.elasticsearch.annotations.FieldType;
+ 
+ @Document(indexName = "product", // 索引名
+-        type = "product", // 类型。未来的版本即将废弃
++        type = "_doc", // 类型。未来的版本即将废弃,7.0已废弃，最好设为_doc
+         shards = 1, // 默认索引分区数
+         replicas = 0, // 每个分区的备份数
+         refreshInterval = "-1" // 刷新间隔
+Index: lab-04-rabbitmq/lab-04-rabbitmq-native/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-04-rabbitmq/lab-04-rabbitmq-native/pom.xml	(revision Local Version)
++++ lab-04-rabbitmq/lab-04-rabbitmq-native/pom.xml	(revision Shelved Version)
+@@ -3,7 +3,7 @@
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <parent>
+-        <artifactId>lab-04</artifactId>
++        <artifactId>lab-04-rabbitmq</artifactId>
+         <groupId>cn.iocoder.springboot.labs</groupId>
+         <version>1.0-SNAPSHOT</version>
+     </parent>
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/pom.xml	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/pom.xml	(revision Shelved Version)
+@@ -5,7 +5,7 @@
+     <parent>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-parent</artifactId>
+-        <version>2.1.3.RELEASE</version>
++        <version>2.2.0.RELEASE</version>
+         <relativePath/> <!-- lookup parent from repository -->
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+@@ -18,6 +18,11 @@
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+         </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
+ 
+         <!-- 方便等会写单元测试 -->
+         <dependency>
+Index: lab-15-spring-data-es/lab-15-spring-data-jest/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-jest/pom.xml	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-jest/pom.xml	(revision Shelved Version)
+@@ -5,7 +5,7 @@
+     <parent>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-parent</artifactId>
+-        <version>2.1.3.RELEASE</version>
++        <version>2.2.0.RELEASE</version>
+         <relativePath/> <!-- lookup parent from repository -->
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+@@ -17,7 +17,7 @@
+         <dependency>
+             <groupId>com.github.vanroy</groupId>
+             <artifactId>spring-boot-starter-data-jest</artifactId>
+-            <version>3.2.5.RELEASE</version>
++            <version>3.3.1.RELEASE</version>
+         </dependency>
+ 
+         <!-- 方便等会写单元测试 -->
+Index: lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-consumer/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-consumer/pom.xml	(revision Local Version)
++++ lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-consumer/pom.xml	(revision Shelved Version)
+@@ -14,6 +14,36 @@
+ 
+     <artifactId>lab-62-sofarpc-annotations-demo-user-rpc-service-consumer</artifactId>
+ 
++    <repositories>
++        <repository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <layout>default</layout>
++            <releases>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </releases>
++            <snapshots>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </snapshots>
++        </repository>
++    </repositories>
++    <pluginRepositories>
++        <pluginRepository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <releases>
++                <enabled>true</enabled>
++            </releases>
++            <snapshots>
++                <enabled>false</enabled>
++            </snapshots>
++        </pluginRepository>
++    </pluginRepositories>
++
+     <dependencies>
+         <!-- 引入定义的 SOFARPC API 接口 -->
+         <dependency>
+Index: lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-provider/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-provider/pom.xml	(revision Local Version)
++++ lab-62/lab-62-sofarpc-annotations-demo/lab-62-sofarpc-annotations-demo-user-rpc-service-provider/pom.xml	(revision Shelved Version)
+@@ -25,6 +25,36 @@
+ <!--        </dependencies>-->
+ <!--    </dependencyManagement>-->
+ 
++    <repositories>
++        <repository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <layout>default</layout>
++            <releases>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </releases>
++            <snapshots>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </snapshots>
++        </repository>
++    </repositories>
++    <pluginRepositories>
++        <pluginRepository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <releases>
++                <enabled>true</enabled>
++            </releases>
++            <snapshots>
++                <enabled>false</enabled>
++            </snapshots>
++        </pluginRepository>
++    </pluginRepositories>
++
+     <dependencies>
+         <!-- 引入定义的 SOFARPC API 接口 -->
+         <dependency>
+Index: lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-consumer/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-consumer/pom.xml	(revision Local Version)
++++ lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-consumer/pom.xml	(revision Shelved Version)
+@@ -14,6 +14,36 @@
+ 
+     <artifactId>lab-62-sofarpc-xml-demo-user-rpc-service-consumer</artifactId>
+ 
++    <repositories>
++        <repository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <layout>default</layout>
++            <releases>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </releases>
++            <snapshots>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </snapshots>
++        </repository>
++    </repositories>
++    <pluginRepositories>
++        <pluginRepository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <releases>
++                <enabled>true</enabled>
++            </releases>
++            <snapshots>
++                <enabled>false</enabled>
++            </snapshots>
++        </pluginRepository>
++    </pluginRepositories>
++
+     <dependencies>
+         <!-- 引入定义的 SOFARPC API 接口 -->
+         <dependency>
+Index: lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-provider/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-provider/pom.xml	(revision Local Version)
++++ lab-62/lab-62-sofarpc-xml-demo/lab-62-sofarpc-xml-demo-user-rpc-service-provider/pom.xml	(revision Shelved Version)
+@@ -25,6 +25,36 @@
+ <!--        </dependencies>-->
+ <!--    </dependencyManagement>-->
+ 
++    <repositories>
++        <repository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <layout>default</layout>
++            <releases>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </releases>
++            <snapshots>
++                <enabled>true</enabled>
++                <updatePolicy>never</updatePolicy>
++            </snapshots>
++        </repository>
++    </repositories>
++    <pluginRepositories>
++        <pluginRepository>
++            <id>aliyun</id>
++            <name>aliyun</name>
++            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
++            <releases>
++                <enabled>true</enabled>
++            </releases>
++            <snapshots>
++                <enabled>false</enabled>
++            </snapshots>
++        </pluginRepository>
++    </pluginRepositories>
++
+     <dependencies>
+         <!-- 引入定义的 SOFARPC API 接口 -->
+         <dependency>
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision Local Version)
++++ pom.xml	(revision Shelved Version)
+@@ -9,106 +9,105 @@
+     <packaging>pom</packaging>
+     <version>1.0-SNAPSHOT</version>
+     <modules>
+-
+         <!-- Spring Boot 示例 -->
+-<!--        <module>lab-01-spring-security</module>-->
+-<!--        <module>lab-02-spring-security-oauth</module>-->
+-<!--        <module>lab-03-kafka</module>-->
+-<!--        <module>lab-04-rabbitmq</module>-->
+-<!--        <module>lab-05-benchmark-tomcat-jetty-undertow</module>-->
+-<!--        <module>lab-06</module>-->
+-<!--        <module>lab-07</module>-->
+-<!--        <module>lab-11-spring-data-redis</module>-->
+-<!--        <module>lab-12-mybatis</module>-->
+-<!--        <module>lab-13-spring-data-jpa</module>-->
+-<!--        <module>lab-14-spring-jdbc-template</module>-->
+-<!--        <module>lab-15-spring-data-es</module>-->
+-<!--        <module>lab-16-spring-data-mongo</module>-->
+-<!--        <module>lab-17</module>-->
+-<!--        <module>lab-18</module>-->
+-<!--        <module>lab-19</module>-->
+-<!--        <module>lab-20</module>-->
+-<!--        <module>lab-21</module>-->
+-<!--        <module>lab-22</module>-->
+-<!--        <module>lab-23</module>-->
+-<!--        <module>lab-24</module>-->
+-<!--        <module>lab-25</module>-->
+-<!--        <module>lab-26</module>-->
+-<!--        <module>lab-27</module>-->
+-<!--        <module>lab-28</module>-->
+-<!--        <module>lab-29</module>-->
+-<!--        <module>lab-30</module>-->
+-<!--        <module>lab-31</module>-->
+-<!--        <module>lab-32</module>-->
+-<!--        <module>lab-33</module>-->
+-<!--        <module>lab-34</module>-->
+-<!--        <module>lab-35</module>-->
+-<!--        <module>lab-36</module>-->
+-<!--        <module>lab-37</module>-->
+-<!--        <module>lab-38</module>-->
+-<!--        <module>lab-39</module>-->
+-<!--        <module>lab-40</module>-->
+-<!--        <module>lab-41</module>-->
+-<!--        <module>lab-42</module>-->
+-<!--        <module>lab-43</module>-->
+-<!--        <module>lab-44</module>-->
+-<!--        <module>lab-45</module>-->
+-<!--        <module>lab-46</module>-->
+-<!--        <module>lab-47</module>-->
+-<!--        <module>lab-48-hot-swap</module>-->
+-<!--        <module>lab-49</module>-->
+-<!--        <module>lab-50</module>-->
+-<!--        <module>lab-51</module>-->
+-<!--        <module>lab-52</module>-->
+-<!--        <module>lab-53</module>-->
+-<!--        <module>lab-54</module>-->
+-<!--        <module>lab-55</module>-->
+-<!--        <module>lab-56</module>-->
+-<!--        <module>lab-57</module>-->
+-<!--        <module>lab-58</module>-->
+-<!--        <module>lab-59</module>-->
+-<!--        <module>lab-60</module>-->
+-<!--        <module>lab-61</module>-->
+-<!--        <module>lab-62</module>-->
+-<!--        <module>lab-63</module>-->
+-<!--        <module>lab-64</module>-->
+-<!--        <module>lab-65</module>-->
+-<!--        <module>lab-66</module>-->
+-<!--        <module>lab-67</module>-->
+-<!--        <module>lab-68-spring-security-oauth</module>-->
++        <module>lab-01-spring-security</module>
++        <module>lab-02-spring-security-oauth</module>
++        <module>lab-03-kafka</module>
++        <module>lab-04-rabbitmq</module>
++        <module>lab-05-benchmark-tomcat-jetty-undertow</module>
++        <module>lab-06</module>
++        <module>lab-07</module>
++        <module>lab-11-spring-data-redis</module>
++        <module>lab-12-mybatis</module>
++        <module>lab-13-spring-data-jpa</module>
++        <module>lab-14-spring-jdbc-template</module>
++        <module>lab-15-spring-data-es</module>
++        <module>lab-16-spring-data-mongo</module>
++        <module>lab-17</module>
++        <module>lab-18</module>
++        <module>lab-19</module>
++        <module>lab-20</module>
++        <module>lab-21</module>
++        <module>lab-22</module>
++        <module>lab-23</module>
++        <module>lab-24</module>
++        <module>lab-25</module>
++        <module>lab-26</module>
++        <module>lab-27</module>
++        <module>lab-28</module>
++        <module>lab-29</module>
++        <module>lab-30</module>
++        <module>lab-31</module>
++        <module>lab-32</module>
++        <module>lab-33</module>
++        <module>lab-34</module>
++        <module>lab-35</module>
++        <module>lab-36</module>
++        <module>lab-37</module>
++        <module>lab-38</module>
++        <module>lab-39</module>
++        <module>lab-40</module>
++        <module>lab-41</module>
++        <module>lab-42</module>
++        <module>lab-43</module>
++        <module>lab-44</module>
++        <module>lab-45</module>
++        <module>lab-46</module>
++        <module>lab-47</module>
++        <module>lab-48-hot-swap</module>
++        <module>lab-49</module>
++        <module>lab-50</module>
++        <module>lab-51</module>
++        <module>lab-52</module>
++        <module>lab-53</module>
++        <module>lab-54</module>
++        <module>lab-55</module>
++        <module>lab-56</module>
++        <module>lab-57</module>
++        <module>lab-58</module>
++        <module>lab-59</module>
++        <module>lab-60</module>
++        <module>lab-61</module>
++        <module>lab-62</module>
++        <module>lab-63</module>
++        <module>lab-64</module>
++        <module>lab-65</module>
++        <module>lab-66</module>
++        <module>lab-67</module>
++        <module>lab-68-spring-security-oauth</module>
+ 
+-        <!-- Spring Cloud 示例 -->
+-<!--        <module>labx-01-spring-cloud-alibaba-nacos-discovery</module>-->
+-<!--        <module>labx-02-spring-cloud-netflix-ribbon</module>-->
+-<!--        <module>labx-03-spring-cloud-feign</module>-->
+-<!--        <module>labx-04-spring-cloud-alibaba-sentinel</module>-->
+-<!--        <module>labx-05-spring-cloud-alibaba-nacos-config</module>-->
+-<!--        <module>labx-06-spring-cloud-stream-rocketmq</module>-->
+-<!--        <module>labx-07-spring-cloud-alibaba-dubbo</module>-->
+-<!--        <module>labx-08-spring-cloud-gateway</module>-->
+-<!--        <module>labx-09-spring-cloud-apollo</module>-->
+-<!--        <module>labx-10-spring-cloud-stream-rabbitmq</module>-->
+-<!--        <module>labx-11-spring-cloud-stream-kafka</module>-->
+-<!--        <module>labx-12-spring-cloud-config</module>-->
+-<!--        <module>labx-13</module>-->
+-<!--        <module>labx-14</module>-->
+-<!--        <module>labx-15</module>-->
+-<!--        <module>labx-16</module>-->
+-<!--        <module>labx-17</module>-->
+-<!--        <module>labx-18</module>-->
+-<!--        <module>labx-19</module>-->
+-<!--        <module>labx-20</module>-->
+-<!--        <module>labx-21</module>-->
+-<!--        <module>labx-22</module>-->
+-<!--        <module>labx-23</module>-->
+-<!--        <module>labx-24</module>-->
+-<!--        <module>labx-25</module>-->
+-<!--        <module>labx-26</module>-->
+-<!--        <module>labx-27</module>-->
+-<!--        <module>labx-28</module>-->
+-<!--        <module>labx-28</module>-->
+-<!--        <module>labx-29-spring-cloud-consul-bus</module>-->
+-<!--        <module>labx-30-spring-cloud-grpc</module>-->
++        <!--Spring Cloud 示例 -->
++        <module>labx-01-spring-cloud-alibaba-nacos-discovery</module>
++        <module>labx-02-spring-cloud-netflix-ribbon</module>
++        <module>labx-03-spring-cloud-feign</module>
++        <module>labx-04-spring-cloud-alibaba-sentinel</module>
++        <module>labx-05-spring-cloud-alibaba-nacos-config</module>
++        <module>labx-06-spring-cloud-stream-rocketmq</module>
++        <module>labx-07-spring-cloud-alibaba-dubbo</module>
++        <module>labx-08-spring-cloud-gateway</module>
++        <module>labx-09-spring-cloud-apollo</module>
++        <module>labx-10-spring-cloud-stream-rabbitmq</module>
++        <module>labx-11-spring-cloud-stream-kafka</module>
++        <module>labx-12-spring-cloud-config</module>
++        <module>labx-13</module>
++        <module>labx-14</module>
++        <module>labx-15</module>
++        <module>labx-16</module>
++        <module>labx-17</module>
++        <module>labx-18</module>
++        <module>labx-19</module>
++        <module>labx-20</module>
++        <module>labx-21</module>
++        <module>labx-22</module>
++        <module>labx-23</module>
++        <module>labx-24</module>
++        <module>labx-25</module>
++        <module>labx-26</module>
++        <module>labx-27</module>
++        <module>labx-28</module>
++        <module>labx-28</module>
++        <module>labx-29-spring-cloud-consul-bus</module>
++        <module>labx-30-spring-cloud-grpc</module>
+     </modules>
+ 
+ </project>
+Index: lab-15-spring-data-es/lab-15-spring-data-jest/src/test/java/cn/iocoder/springboot/lab15/springdatajest/repository/ProductRepository02Test.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-jest/src/test/java/cn/iocoder/springboot/lab15/springdatajest/repository/ProductRepository02Test.java	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-jest/src/test/java/cn/iocoder/springboot/lab15/springdatajest/repository/ProductRepository02Test.java	(revision Shelved Version)
+@@ -12,6 +12,10 @@
+ import org.springframework.data.domain.Sort;
+ import org.springframework.test.context.junit4.SpringRunner;
+ 
++import java.util.Arrays;
++import java.util.Collections;
++import java.util.List;
++
+ @RunWith(SpringRunner.class)
+ @SpringBootTest(classes = Application.class)
+ public class ProductRepository02Test {
+@@ -33,7 +37,7 @@
+         }
+ 
+         // 创建排序条件
+-        Sort sort = new Sort(Sort.Direction.DESC, "id"); // ID 倒序
++        Sort sort = Sort.by(Sort.Direction.DESC, "id"); // ID 倒序
+         // 创建分页条件。
+         Pageable pageable = PageRequest.of(0, 10, sort);
+         // 执行分页操作
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/ProductRepositoryTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/ProductRepositoryTest.java	(revision Local Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/ProductRepositoryTest.java	(revision Shelved Version)
+@@ -50,6 +50,7 @@
+     public void testSelectById() {
+         Optional<ESProductDO> userDO = productRepository.findById(1);
+         System.out.println(userDO.isPresent());
++        System.out.println(userDO.get().toString());
+     }
+ 
+     @Test // 根据 ID 编号数组，查询多条记录
+Index: lab-04-rabbitmq/lab-04-rabbitmq-native/src/main/java/cn/iocoder/springboot/lab04/rabbitmqdemo/RabbitMQProducer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-04-rabbitmq/lab-04-rabbitmq-native/src/main/java/cn/iocoder/springboot/lab04/rabbitmqdemo/RabbitMQProducer.java	(revision Local Version)
++++ lab-04-rabbitmq/lab-04-rabbitmq-native/src/main/java/cn/iocoder/springboot/lab04/rabbitmqdemo/RabbitMQProducer.java	(revision Shelved Version)
+@@ -10,10 +10,11 @@
+ 
+ public class RabbitMQProducer {
+ 
+-    private static final String IP_ADDRESS = "127.0.0.1";
++    private static final String IP_ADDRESS = "192.168.3.27";
+     private static final Integer PORT = 5672;
+-    private static final String USERNAME = "guest";
+-    private static final String PASSWORD = "guest";
++    private static final String USERNAME = "admin";
++    private static final String PASSWORD = "admin";
++    private static final String VIRTUAL_HOST = "my_vhost";
+ 
+     private static final String EXCHANGE_NAME = "exchange_demo";
+     private static final String ROUTING_KEY = "routingkey_demo";
+@@ -43,6 +44,7 @@
+     public static Connection getConnection() throws IOException, TimeoutException {
+         ConnectionFactory factory = new ConnectionFactory();
+         factory.setHost(IP_ADDRESS);
++        factory.setVirtualHost(VIRTUAL_HOST);
+         factory.setPort(PORT);
+         factory.setUsername(USERNAME);
+         factory.setPassword(PASSWORD);
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/config/RestClientConfig.java
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/config/RestClientConfig.java	(revision Shelved Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/main/java/cn/iocoder/springboot/lab15/springdataelasticsearch/config/RestClientConfig.java	(revision Shelved Version)
+@@ -0,0 +1,46 @@
++package cn.iocoder.springboot.lab15.springdataelasticsearch.config;
++
++import org.elasticsearch.client.RestHighLevelClient;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.data.elasticsearch.client.ClientConfiguration;
++import org.springframework.data.elasticsearch.client.RestClients;
++import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
++import org.springframework.http.HttpHeaders;
++
++import java.time.Duration;
++import java.time.LocalDateTime;
++import java.time.format.DateTimeFormatter;
++
++/**
++ * <p>
++ * 一句话功能描述
++ * 功能详细描述
++ * <p>
++ *
++ * @author dc
++ * @version V1.0
++ * @since 2020-08-06 11:21
++ **/
++@Configuration
++public class RestClientConfig extends AbstractElasticsearchConfiguration {
++
++    @Override
++    @Bean
++    public RestHighLevelClient elasticsearchClient() {
++
++        HttpHeaders defaultHeaders = new HttpHeaders();
++        defaultHeaders.add("some-header", "on every request");
++
++        final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
++                .connectedTo("192.168.3.27:9200")
++                //.usingSsl()
++                .withConnectTimeout(Duration.ofSeconds(5))
++                .withSocketTimeout(Duration.ofSeconds(3))
++                //.withDefaultHeaders(defaultHeaders)
++                //.withBasicAuth(username, password)
++                .build();
++
++        return RestClients.create(clientConfiguration).rest();
++    }
++}
+Index: lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/RestHighLevelClientTest.java
+===================================================================
+--- lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/RestHighLevelClientTest.java	(revision Shelved Version)
++++ lab-15-spring-data-es/lab-15-spring-data-elasticsearch/src/test/java/cn/iocoder/springboot/lab15/springdataelasticsearch/repository/RestHighLevelClientTest.java	(revision Shelved Version)
+@@ -0,0 +1,26 @@
++package cn.iocoder.springboot.lab15.springdataelasticsearch.repository;
++
++import cn.iocoder.springboot.lab15.springdataelasticsearch.Application;
++import org.elasticsearch.client.RestHighLevelClient;
++import org.junit.runner.RunWith;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.boot.test.context.SpringBootTest;
++import org.springframework.test.context.junit4.SpringRunner;
++
++/**
++ * <p>
++ * 一句话功能描述
++ * 功能详细描述
++ * <p>
++ *
++ * @author dc
++ * @version V1.0
++ * @since 2020-08-06 11:23
++ **/
++@RunWith(SpringRunner.class)
++@SpringBootTest(classes = Application.class)
++public class RestHighLevelClientTest {
++
++    @Autowired
++    RestHighLevelClient highLevelClient;
++}
+Index: lab-15-spring-data-es/《芋道 Spring Boot Elasticsearch 入门》.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-15-spring-data-es/《芋道 Spring Boot Elasticsearch 入门》.md	(revision Local Version)
++++ lab-15-spring-data-es/《芋道 Spring Boot Elasticsearch 入门》.md	(revision Shelved Version)
+@@ -1,1 +1,229 @@
+-<http://www.iocoder.cn/Spring-Boot/Elasticsearch/?github>
++优秀教程:
++
++[芋道 Spring Boot Elasticsearch 入门](http://www.iocoder.cn/Spring-Boot/Elasticsearch/)
++
++[Elasticsearch RestApi文档-版本7.8](https://www.elastic.co/guide/en/elasticsearch/reference/7.8/rest-apis.html)
++
++[图解 Elasticsearch 原理](http://www.iocoder.cn/Fight/Schematic-Elasticsearch-principle/?self)
++
++[全文搜索引擎选 ElasticSearch 还是 Solr？](http://www.iocoder.cn/Fight/Select-ElasticSearch-or-Solr-as-the-full-text-search-engine/?self)
++
++[别再说你不会 ElasticSearch 调优了，都给你整理好了](http://www.iocoder.cn/Fight/There's-no-ElasticSearch-tuning:-there-you-have-it/?self)
++
++[Elasticsearch 如何做到亿级数据查询毫秒级返回？](http://www.iocoder.cn/Fight/Elasticsearch-how-to-achieve-millionth-level-data-query-millisecond-level-return/?self)
++
++[日均 5 亿查询量的京东订单中心，为什么舍 MySQL 用 ES ?](http://www.iocoder.cn/Fight/Why-use-ES-instead-of-MySQL-for-jd-order-center-with-an-average-daily-query-volume-of-500-million/?self)
++
++
++
++**Spring data ElasticSearch版本对应关系**
++
++| **Spring Data Elasticsearch** | **Elasticsearch** | **Spring Boot** |
++| ----------------------------- | ----------------- | --------------- |
++| 4.0.x                         | 7.6.2             | 2.3.x           |
++|                               |                   | 2.2.x           |
++|                               |                   | 2.1.x           |
++|                               |                   | 2.0.x           |
++|                               |                   | 1.5.x           |
++
++
++
++**Elastic Search基础知识**
++
++文档(Document): 文档是ES中可以被搜索的最小单元，是ES的基本数据结构，
++每个文档都有一个唯一的id，文档会被序列化为JSON结构,保存在ES当中
++
++Document的元数据:
++_index: 索引名
++_type: 类型,默认为_doc
++_id: 唯一id,可以指定也可以由ES自动生成
++_source: 文档的原始JSON数据
++_all: 文档所有字段内容的整合,ES7.0后已废除
++_version: 文档的版本信息
++_source: 相关性打分
++
++- 索引(Index): 索引是文档的容器,是一类文档的集合
++
++  - ​	Index体现了逻辑空间上的概念: 每个索引都有自己的Mapping定义，
++
++  ​	用于定义包含的文档的字段名和字段类型
++
++  - ​	Shard体现在物理空间的概念: 索引的数据分散在Shard上
++
++- 索引的Mapping和Settings
++
++  - ​	Mapping定义文档字段的类型
++
++  - ​	Setting定义不同的数据分布    
++
++索引的不同语意
++
++- 名词: 一个Elasticsearch集群中,可以创建很多不同的索引
++
++- 动词: 保存一个文档到Elasticsearch的过程也叫索引(indexing)
++
++  - ES中,创建一个倒排索引的过程
++
++- 名词: 一个B树索引,一个倒排索引
++
++  
++
++Type
++  -  6.0之前，一个Index可以建立多个Types
++  - 6.0开始，Type只能设置一个并被标记为Deprecated
++  - 7.0开始，一个索引只能创建一个Type-“_doc”
++
++传统关系型数据库和Elasticsearch的区别
++  - Elasticsearch- Schemaless /相关性/高性能全文检索
++  - RDBMS - 事务性 / Join
++
++抽象与类比
++
++| RDBMS  | Elasticsearch |
++| ------ | ------------- |
++| Table  | Index(Type)   |
++| Row    | Document      |
++| Column | Filed         |
++| Schema | Mapping       |
++| SQL    | DSL           |
++
++
++
++##### 分布式特性
++
++- Elasticsearch的分布式架构的好处
++  - 存储的水平扩容
++  - 提高系统的可用性，部分节点停止服务，整个集群的服务不受影响
++- Elasticsearch的分布式架构
++  - 不同的集群通过不同的名字来区分，默认名字“elasticsearch”
++  - 通过配置文件修改，或者在命令行中 -E cluster.name=mycluster来设定
++  - 一个集群可以有一个或者多个节点
++
++##### 节点
++
++- 节点是一个Elasticsearch的实例
++
++  - 本质上就是一个JAVA进程
++
++  - 一台机器可以运行多个Elasticsearch进程，但是生产环境一般建议
++
++    一台机器上只运行一个Elasticsearch实例
++
++- 每一个节点都有名字，通过配置文件配置，或者启动时候 -E node.name=node1指定
++
++- 每一个节点在启动之后，会分配一个UID，保存在data目录下
++
++
++
++##### Master-eligible nodes和Master Node
++
++- 每个节点启动后，默认就是一个Master eligible节点
++  - 可以设置 node.master: false 禁止
++- Master-eligible节点可以参加选主流程，成为Master节点
++- 当第一个节点启动时候，它会将自己选举成Master节点
++- 每个节点上都保存了集群的状态，只有Master节点才能修改集群的状态信息
++  - 集群状态(Cluster State)，维护了一个集群中，必要的信息
++    - 所有的节点信息
++    - 所有的索引和其相关的Mapping与Setting信息
++    - 分片的路由信息
++  - 任意节点都能修改信息会导致数据的不一致性
++
++
++
++##### Data Node & Coordinating Node
++
++- Data Node
++
++  - 可以保存数据的节点，叫做Data Node。负责保存分片数据。在数据扩展上
++
++    起到了至关重要的作用
++
++- Coordinating Node
++
++  - 负责接受Client的请求，将请求分发到合适的节点，最终把结果汇总到一起
++  - 每个节点默认都起到了Coordinating Node的职责
++
++
++
++##### 其他的节点类型
++
++- Hot & Warm Node（冷热节点，热节点配置高，冷节点配置低）
++
++  - 不同硬件配置的Data Node，用来实现Hot & Warm 架构，降低集群部署成本
++
++- Machine Learning Node
++
++  - 负责跑机器学习的Job，用来做异常检测
++
++- Tribe Node
++
++  - (5.3 开始使用 Cross Cluster Search) Tribe Node连接到不同的Elasticsearch集群，
++
++    并且支持将这些集群当成一个单独的集群处理，在5.3之后的版本废弃
++
++
++
++##### 配置节点类型
++
++- 开发环境中一个节点可以承担多种角色
++- 生产环境中，应该设置单一的角色的节点（dedicated node）
++
++| 节点类型          | 配置参数    | 默认值                                                    |
++| ----------------- | ----------- | --------------------------------------------------------- |
++| master eligible   | node.master | true                                                      |
++| data              | node.data   | true                                                      |
++| ingest            | node.ingest | true                                                      |
++| coordinating only | 无          | 每个节点默认都是coordinating节点。设置其他类型全部为false |
++| machine learning  | node.ml     | true（需 enable x-pack）                                  |
++
++
++
++##### 分片（Primary Shard & Replica Shard）
++
++- 主分片，用以解决数据水平扩展的问题。通过主分片，可以将数据分布到集群内的所有节点之上
++  - 一个分片是一个运行的Lucene的实例
++  - 主分片数在索引创建时指定，后续不允许修改，除非Reindex
++- 副本，用以解决数据高可用的问题。分片是主分片的拷贝
++  - 副本分片数，可以动态调整
++  - 增加副本数，还可以在一定程度上提高服务的可用性（读取的吞吐）
++- 一个三节点的集群中，blogs 索引的分片分布情况
++  
++  - 思考: 增加一个节点或改大主分片数对系统的影响
++  
++    答: 主分片数已设定，后续增加节点和调整主分片数也无法实现水平扩展，除非重建索引，如果数据量过大，会非常耗时
++
++![image-20200806155429671](C:\Users\xiaod\AppData\Roaming\Typora\typora-user-images\image-20200806155429671.png)
++
++##### 分片的设定
++
++- 对于生产环境中分片的设定，需要提前做好容量规划
++  - 分片数设置过小
++    - 导致后续无法增加节点实现水平扩展
++    - 单个分片的数据量太大，导致数据重新分配耗时
++  - 分片数设置过大，7.0开始，默认主分片由5改成了1，解决了over-sharding的问题
++    - 影响搜索结果的相关性打分，影响统计结果的准确性
++    - 单个节点上过多的分片，会导致资源浪费，同时也会影响性能
++
++##### 查看集群的健康状况
++
++- Green - 主分片与副本都正常分配
++- Yellow - 主分片全部正常分配，有副本未能正常分配
++- Red - 有主分片未能分配
++  - 例如，当服务器的磁盘容量超过85%时，去创建了一个新索引
++
++![image-20200806160418989](C:\Users\xiaod\AppData\Roaming\Typora\typora-user-images\image-20200806160418989.png)
++
++##### 文档的CRUD
++
++- Type名，约定都用_doc
++- Create - 如果ID已经存在，会失败
++- Index - 如果ID不存在，创建新的文档。否则，先删除现有的文档，再创建新的文档，版本会增加
++- Update - 文档必须已经存在，更新只会对相应字段做增量修改
++
++| Index  | PUT  my_index/_doc/{id}                                      |
++| ------ | ------------------------------------------------------------ |
++| Create | PUT  my_index/_create/{id}     POST  my_index/_doc（不指定ID，自动生成） |
++| Read   | GET  my_index/_doc/{id}                                      |
++| Update | POST  my_index/_update/{id}                                  |
++| Delete | DELETE  my_index/_doc/{id}                                   |
++
+Index: lab-04-rabbitmq/《芋道 Spring Boot 消息队列 RabbitMQ 入门》.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lab-04-rabbitmq/《芋道 Spring Boot 消息队列 RabbitMQ 入门》.md	(revision Local Version)
++++ lab-04-rabbitmq/《芋道 Spring Boot 消息队列 RabbitMQ 入门》.md	(revision Shelved Version)
+@@ -1,1 +1,40 @@
+ <http://www.iocoder.cn/Spring-Boot/RabbitMQ/?github>
++
++
++[RabbitMQ 基础概念详解]<http://www.iocoder.cn/RabbitMQ/Detailed-understanding-of-the-basic-concepts-of-RabbitMQ/?self>
++[朱小厮的博客]<https://blog.csdn.net/u013256816>
++[RabbitMQ 最佳实践]<https://www.cnblogs.com/davenkin/p/rabbitmq-best-practices.html>
++
++rabbitmq-native: 直接通过官方java客户端连接，演示了一些基本用法
++
++rabbitmq-demo: 使用spring-boot-starter-amqp，演示基本注解，同步发送和异步发送，
++演示不同Exchange规则的Exchange创建，消息的调用
++
++rabbitmq-demo-batch: 批量发送消息，其实rabbitmq broker没有批量接受消息的接口，
++这个批量是spring-amqp做的，它在client层将多条消息封成一条并标记。
++
++rabbitmq-demo-batch-consume: 批量消费消息，其实消费的是一条批量消息，
++再根据标记做拆分后消费，依赖rabbitmq-demo-batch发送的批量消息
++
++rabbitmq-demo-batch-consume2: 批量消费消息2不依赖rabbitmq-demo-batch发送的批量消息,
++也是在client端等待，拉取到足够的消息条数再消费，用receiveTimeout控制，但是设计很神奇，
++代表的是，每次拉取一条消息，最多阻塞等待 receiveTimeout 时长，也就是最多
++可能等待 receiveTimeout * batchSize 时长，才会进行批量消费
++
++rabbitmq-consume-retry: 一个 Consumer 消费重试的示例，在消息消费失败的时候，Spring-AMQP 会通过消费重试机制，重新投递该消息给 Consumer ，
++让 Consumer 有机会重新消费消息，实现消费成功，当然，Spring-AMQP 并不会无限重新投递消息给 Consumer 重新消费，
++而是在默认情况下，达到 N 次重试次数时，Consumer 还是消费失败时，该消息就会进入到死信队列。
++后续，我们可以通过对死信队列中的消息进行重发，来使得消费者实例再次进行消费。
++RabbitMQ 中，消费重试是由 Spring-AMQP 所封装提供的，死信队列是 RabbitMQ 自带的功能
++另外，每条消息的失败重试，是可以配置一定的间隔时间
++死信队列参考：[RabbitMQ 之死信队列]<http://www.iocoder.cn/RabbitMQ/dead-letter-queue/?self>
++
++rabbitmq-demo-delay: 一个定时消息的示例，基于 RabbitMQ 的死信队列，实现定时消息的功能。RabbitMQ 提供了过期时间 TTL 机制，
++可以设置消息在队列中的存活时长。在消息到达过期时间时，会从当前队列中删除，并被 RabbitMQ 自动转发到对应的死信队列中。
++那么，如果我们创建消费者 Consumer ，来消费该死信队列，是不是就实现了延迟队列的效果。如此，便实现了定时消息的功能。
++还有更好的官方提供方式，生产中最好用这种:
++[Spring Boot RabbitMQ 延迟消息实现完整版]<http://www.iocoder.cn/Fight/Spring-Boot-RabbitMQ-deferred-message-implementation-full-version/?self>
++
++
++rabbitmq-demo-message-model: 消息模式示例，在消息队列中，有两种经典的消息模式：「点对点」和「发布订阅」，
++具体: [消息队列两种模式：点对点与发布订阅]<http://www.iocoder.cn/Fight/There-are-two-modes-of-message-queuing-point-to-point-and-publish-subscription/?self>

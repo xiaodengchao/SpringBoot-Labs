@@ -50,6 +50,7 @@ public class ProductRepositoryTest {
     public void testSelectById() {
         Optional<ESProductDO> userDO = productRepository.findById(1);
         System.out.println(userDO.isPresent());
+        System.out.println(userDO.get().toString());
     }
 
     @Test // 根据 ID 编号数组，查询多条记录

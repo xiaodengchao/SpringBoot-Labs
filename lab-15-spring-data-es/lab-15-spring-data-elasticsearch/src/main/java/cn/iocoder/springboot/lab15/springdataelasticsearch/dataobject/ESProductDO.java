@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Document(indexName = "product", // 索引名
-        type = "product", // 类型。未来的版本即将废弃
+        type = "_doc", // 类型。未来的版本即将废弃,7.0已废弃，最好设为_doc
         shards = 1, // 默认索引分区数
         replicas = 0, // 每个分区的备份数
         refreshInterval = "-1" // 刷新间隔

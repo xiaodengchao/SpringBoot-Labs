@@ -12,6 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class ProductRepository02Test {
@@ -33,7 +37,7 @@ public class ProductRepository02Test {
         }
 
         // 创建排序条件
-        Sort sort = new Sort(Sort.Direction.DESC, "id"); // ID 倒序
+        Sort sort = Sort.by(Sort.Direction.DESC, "id"); // ID 倒序
         // 创建分页条件。
         Pageable pageable = PageRequest.of(0, 10, sort);
         // 执行分页操作

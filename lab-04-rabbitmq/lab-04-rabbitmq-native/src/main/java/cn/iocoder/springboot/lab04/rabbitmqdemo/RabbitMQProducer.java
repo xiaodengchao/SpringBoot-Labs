@@ -10,10 +10,11 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQProducer {
 
-    private static final String IP_ADDRESS = "127.0.0.1";
+    private static final String IP_ADDRESS = "192.168.3.27";
     private static final Integer PORT = 5672;
-    private static final String USERNAME = "guest";
-    private static final String PASSWORD = "guest";
+    private static final String USERNAME = "admin";
+    private static final String PASSWORD = "admin";
+    private static final String VIRTUAL_HOST = "my_vhost";
 
     private static final String EXCHANGE_NAME = "exchange_demo";
     private static final String ROUTING_KEY = "routingkey_demo";
@@ -43,6 +44,7 @@ public class RabbitMQProducer {
     public static Connection getConnection() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(IP_ADDRESS);
+        factory.setVirtualHost(VIRTUAL_HOST);
         factory.setPort(PORT);
         factory.setUsername(USERNAME);
         factory.setPassword(PASSWORD);
